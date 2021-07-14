@@ -1,0 +1,28 @@
+name: Validate domains.yaml configuration
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    name: Test domains.yaml
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Install Python dependencies
+        run: pip install -r tests/requirements.txt
+
+      - name: Check formatting
+        run: black --check tests
+
+      - name: Check mypy
+        run: mypy tests
+
+      - name: Test with pytest
+        run: pytest --cov-report=term-missing --cov=tests
