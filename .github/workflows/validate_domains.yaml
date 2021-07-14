@@ -1,4 +1,4 @@
-name: Validate domains.yaml configuration
+name: Validate domains.yaml
 
 on: [push, pull_request]
 
