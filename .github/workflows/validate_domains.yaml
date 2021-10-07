@@ -15,7 +15,9 @@ jobs:
         with:
           python-version: 3.x
       - name: Install poetry
-        run: pip install poetry
+        run: |
+          pip install poetry
+          poetry config settings.virtualenvs.create false
 
       - name: Install Python dependencies
         run: poetry install
