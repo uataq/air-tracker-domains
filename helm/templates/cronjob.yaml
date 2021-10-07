@@ -1,0 +1,33 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: scene-generator
+spec:
+  schedule: '0 * * * *'
+  concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 300
+
+  jobTemplate:
+    spec:
+      activeDeadlineSeconds: 300
+      backoffLimit: 3
+
+      template:
+        spec:
+          restartPolicy: Never
+
+          containers:
+            - name: scene-generator
+              image: '{{ .Values.image }}'
+              env:
+                - name: SCENES_API_URL
+                  value: '{{ .Values.scenes_api_url }}'
+                - name: LOGURU_LEVEL
+                  value: '{{ .Values.loguru_level }}'
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 200M
+                limits:
+                  cpu: 1000m
+                  memory: 1000M
