@@ -14,15 +14,17 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.x
+      - name: Install poetry
+        run: curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
 
       - name: Install Python dependencies
-        run: pip install -r tests/requirements.txt
+        run: poetry install
 
       - name: Check formatting
-        run: black --check tests
+        run: black --check .
 
       - name: Check mypy
-        run: mypy tests
+        run: mypy .
 
       - name: Test with pytest
-        run: pytest --cov-report=term-missing --cov=tests
+        run: pytest
